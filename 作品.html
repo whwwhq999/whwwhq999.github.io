@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作品集 - 我的个人博客</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* 复用基础全局样式（与首页一致） */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "微软雅黑", sans-serif; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+    .btn { display: inline-block; padding: 8px 16px; background: #e62e38; color: #fff; border-radius: 4px; font-size: 14px; transition: background 0.3s; }
+    .btn:hover { background: #c9252f; }
+
+    /* 任务1：导航栏（全局共用，与首页一致） */
+    header { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 999; }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+    .logo { font-size: 22px; font-weight: 700; color: #e62e38; }
+    .desktop-nav ul { display: flex; gap: 25px; font-size: 14px; }
+    .desktop-nav a { padding: 5px 0; border-bottom: 2px solid transparent; }
+    .desktop-nav a:hover, .desktop-nav a.active { color: #e62e38; border-bottom: 2px solid #e62e38; }
+    .mobile-menu-btn { display: none; font-size: 20px; cursor: pointer; }
+    .mobile-nav { display: none; background: #fff; padding: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .mobile-nav ul { display: flex; flex-direction: column; gap: 15px; font-size: 14px; }
+
+    /* 任务2：项目筛选分类样式 */
+    .portfolio-section { padding: 60px 0; }
+    .section-title { font-size: 24px; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #e62e38; display: inline-block; }
+    .filter-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
+    .filter-btn { padding: 8px 20px; background: #f0f0f0; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.3s; }
+    .filter-btn.active, .filter-btn:hover { background: #e62e38; color: #fff; }
+
+    /* 任务3：项目卡片网格样式 */
+    .project-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+    .project-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; transition: transform 0.3s; }
+    .project-card:hover { transform: translateY(-5px); }
+    .project-img { width: 100%; height: 180px; object-fit: cover; }
+    .project-content { padding: 20px; }
+    .project-title { font-size: 18px; margin-bottom: 10px; color: #333; }
+    .project-desc { color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 15px; }
+    .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .project-tag { padding: 4px 10px; background: #f0f0f0; border-radius: 20px; font-size: 12px; color: #666; }
+    .project-links { display: flex; gap: 10px; }
+    .project-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: #e62e38; transition: color 0.3s; }
+    .project-link:hover { color: #c9252f; }
+
+    /* 任务4：页脚（全局共用，与首页一致） */
+    footer { background: #333; color: #fff; padding: 40px 0; text-align: center; }
+    .footer-social { display: flex; justify-content: center; gap: 15px; font-size: 18px; margin: 15px 0; }
+    .footer-copyright { font-size: 12px; color: #ccc; }
+
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      .desktop-nav { display: none; }
+      .mobile-menu-btn { display: block; }
+      .project-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 任务1：导航栏（全局共用） -->
+  <header>
+    <div class="container nav-container">
+      <div class="logo">我的博客</div>
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="index.html">首页</a ></li>
+          <li><a href="./文章.html">文章列表</a ></li>
+          <li><a href="./个人.html">关于我</a ></li>
+          <li><a href="./作品.html" class="active">作品集</a ></li>
+        </ul>
+      </nav>
+      <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <div class="container">
+        <ul>
+          <li><a href="index.html">首页</a ></li>
+          <li><a href="./文章.html">文章列表</a ></li>
+          <li><a href="./个人.html">关于我</a ></li>
+          <li><a href="./作品.html" class="active">作品集</a ></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 任务2：项目筛选分类 + 任务3：项目卡片网格 -->
+  <section class="portfolio-section">
+    <div class="container">
+      <h2 class="section-title">我的项目作品集</h2>
+      <div class="filter-btns">
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="web">Web应用</button>
+        <button class="filter-btn" data-filter="mobile">移动端</button>
+        <button class="filter-btn" data-filter="course">课程设计</button>
+      </div>
+      <div class="project-cards">
+        <!-- 项目1：Web应用 -->
+        <div class="project-card" data-category="web">
+          <a href="./1.html"><img src="https://picsum.photos/300/180?random=1" alt="个人博客网站" class="project-img"></a>
+          <div class="project-content">
+            <h3 class="project-title">个人博客网站</h3>
+            <p class="project-desc">基于HTML5、CSS3、JavaScript开发的响应式个人博客，包含首页、文章详情、关于我、作品集等页面，支持移动端适配。</p >
+            <div class="project-tags">
+              <span class="project-tag">HTML5</span>
+              <span class="project-tag">CSS3</span>
+              <span class="project-tag">JavaScript</span>
+              <span class="project-tag">响应式</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> 在线演示</a >
+              <a href="#" class="project-link"><i class="fab fa-github"></i> 源码</a >
+            </div>
+          </div>
+        </div>
+        <!-- 项目2：移动端 -->
+        <div class="project-card" data-category="mobile">
+          <a href="./2.html" > <img src="https://picsum.photos/300/180?random=2" alt="移动端电商原型" class="project-img"></a>
+          <div class="project-content">
+            <h3 class="project-title">移动端电商原型</h3>
+            <p class="project-desc">使用Flex布局和vw/vh适配方案开发的移动端电商页面原型，包含首页、商品列表、商品详情等核心页面。</p >
+            <div class="project-tags">
+              <span class="project-tag">CSS3</span>
+              <span class="project-tag">移动端适配</span>
+              <span class="project-tag">Flex布局</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> 在线演示</a >
+              <a href="#" class="project-link"><i class="fab fa-github"></i> 源码</a >
+            </div>
+          </div>
+        </div>
+        <!-- 项目3：课程设计 -->
+        <div class="project-card" data-category="course">
+          <a href="./3.html"><img src="https://picsum.photos/300/180?random=3" alt="学生管理系统" class="project-img"></a>
+          <div class="project-content">
+            <h3 class="project-title">学生管理系统（前端）</h3>
+            <p class="project-desc">课程设计项目，基于HTML5和JavaScript开发的学生信息管理系统前端界面，支持增删改查功能的可视化操作。</p >
+            <div class="project-tags">
+              <span class="project-tag">HTML5</span>
+              <span class="project-tag">JavaScript</span>
+              <span class="project-tag">DOM操作</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> 在线演示</a >
+              <a href="#" class="project-link"><i class="fab fa-github"></i> 源码</a >
+            </div>
+          </div>
+        </div>
+        <!-- 项目4：Web应用 -->
+        <div class="project-card" data-category="web">
+          <a href="./4.html"><img src="https://picsum.photos/300/180?random=4" alt="天气查询网站" class="project-img"></a>
+          <div class="project-content">
+            <h3 class="project-title">天气查询网站</h3>
+            <p class="project-desc">调用天气API开发的Web应用，支持城市搜索、实时天气展示和未来7天预报，使用CSS3动画优化交互效果。</p >
+            <div class="project-tags">
+              <span class="project-tag">JavaScript</span>
+              <span class="project-tag">API调用</span>
+              <span class="project-tag">CSS3动画</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> 在线演示</a >
+              <a href="#" class="project-link"><i class="fab fa-github"></i> 源码</a >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 任务4：页脚（全局共用） -->
+  <footer>
+    <div class="container">
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-github"></i></a >
+        <a href="#"><i class="fab fa-csdn"></i></a >
+        <a href="#"><i class="fab fa-weixin"></i></a >
+        <a href="#"><i class="fab fa-qq"></i></a >
+      </div>
+      <p class="footer-copyright">© 2026 我的个人博客 | 备案号：粤ICP备12345678号</p >
+    </div>
+  </footer>
+
+  <!-- 移动端菜单脚本 + 项目筛选脚本 -->
+  <script>
+    // 移动端菜单切换
+    function toggleMobileMenu() {
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // 项目筛选功能
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // 切换激活状态
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.getAttribute('data-filter');
+        // 筛选项目
+        projectCards.forEach(card => {
+          const category = card.getAttribute('data-category');
+          if (filter === 'all' || category === filter) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

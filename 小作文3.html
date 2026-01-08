@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>移动端适配三大核心方案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            color: #333;
+            background: #f5f5f5;
+        }
+        header {
+            text-align: center;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        h1 {
+            color: #e62e38;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        .meta {
+            font-size: 13px;
+            color: #666;
+        }
+        article {
+            background: #fff;
+            padding: 25px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        h2 {
+            font-size: 18px;
+            margin: 20px 0 12px;
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+        code {
+            color: #e74c3c;
+            padding: 2px 4px;
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>移动端适配三大核心方案：让页面在任意设备“稳如泰山”</h1>
+        <div class="meta">发布时间：2026-01-08 | 分类：前端开发</div>
+    </header>
+    <article>
+        <p>在移动互联网普及的当下，前端开发者面临的首要难题就是<strong>移动端适配</strong>——同一套代码要在尺寸、分辨率各异的手机屏幕上完美显示。从早期的固定宽度布局到如今的弹性适配，技术迭代催生了三种主流核心方案：<strong>viewport视口基础设置</strong>、<strong>rem弹性适配</strong>、<strong>vw/vh百分比适配</strong>。掌握这三种方案，就能轻松应对绝大多数移动端开发场景。</p >
+        
+        <h2>一、 viewport视口设置：移动端适配的“地基”</h2>
+        <p>早期移动端浏览器会将页面放在980px的默认视口中，导致页面缩小显示、元素拥挤。通过设置<code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>，可以让视口宽度等于设备宽度，同时禁止用户手动缩放，为后续适配打下基础。这个标签是所有移动端项目的标配，缺少它，再复杂的适配方案都会失效。它的优势在于简单高效、无兼容性问题，缺点是仅能解决视口适配，无法实现元素尺寸的弹性变化。</p >
+        
+        <h2>二、 rem弹性适配：兼容性优先的“万金油”</h2>
+        <p>rem是相对单位，1rem等于根元素<code>&lt;html&gt;</code>的字体大小。该方案的核心逻辑是：根据不同设备的屏幕宽度，动态调整根元素的字体大小，让页面元素尺寸按比例缩放。实战中，开发者可通过媒体查询或引入<code>flexible.js</code>实现这一目标。比如设置375px宽度的设计稿对应根元素字体大小为100px，那么设计稿上100px的元素，在代码中就可以写成1rem。这种方案的优势是兼容性强，能覆盖到多数老旧设备；缺点是需要依赖JS计算，且在极端宽高比的设备上可能出现比例失衡。</p >
+        
+        <h2>三、 vw/vh百分比适配：现代开发的“极简之选”</h2>
+        <p>vw和vh是基于视口的相对单位，1vw等于视口宽度的1%，1vh等于视口高度的1%。该方案无需依赖JS，直接通过CSS就能完成适配。比如设计稿宽度为375px，那么1vw = 3.75px，设计稿上75px的按钮，代码中就可以写成<code>width: 20vw</code>。这种方案的优势是简洁高效、无JS依赖，适配逻辑直观易懂；缺点是对低版本浏览器兼容性较差，适合面向现代移动端的项目开发。</p >
+        
+        <p>三种方案各有优劣，开发者需按需选型：如果是需要兼容老旧设备的项目，优先选择<strong>rem适配</strong>；如果是面向现代浏览器的轻量级项目，<strong>vw/vh适配</strong>是最佳选择；而<strong>viewport视口设置</strong>则是所有方案的基础，必须同步配置。移动端适配的本质是“让页面元素随设备尺寸灵活变化”，这三种核心方案从不同维度解决了适配难题。在实际开发中，开发者还可以结合<code>flex</code>布局、<code>media query</code>媒体查询等技术，进一步优化适配效果，让页面在任意移动设备上都能“稳如泰山”。</p >
+    </article>
+    <footer>© 2026 前端开发者倒戈 | 个人博客原创文章</footer>
+</body>
+</html>

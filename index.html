@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的个人博客 - 首页</title>
+  <!-- 字体图标（用于社交链接、汉堡菜单） -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* 全局样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "微软雅黑", sans-serif;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #e62e38;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #c9252f;
+    }
+
+
+    /* 1. 导航栏（含移动端汉堡菜单） */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e62e38;
+    }
+    /* 桌面端导航 */
+    .desktop-nav ul {
+      display: flex;
+      gap: 25px;
+      font-size: 14px;
+    }
+    .desktop-nav a {
+      padding: 5px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .desktop-nav a:hover,
+    .desktop-nav a.active {
+      color: #e62e38;
+      border-bottom: 2px solid #e62e38;
+    }
+    /* 移动端汉堡菜单（默认隐藏） */
+    .mobile-menu-btn {
+      display: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .mobile-nav {
+      display: none;
+      background: #fff;
+      padding: 15px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .mobile-nav ul {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      font-size: 14px;
+    }
+
+
+    /* 2. 个人信息区 */
+    .profile-section {
+      padding: 60px 0;
+      background: #f8f9fa;
+      text-align: center;
+    }
+    .profile-avatar {
+      /* 头像浮动动画 */
+
+   width: 120px;
+   height: 120px;
+   border-radius: 50%; /* 保持圆形基础 */
+   object-fit: cover;
+   border: 4px solid #e62e38; /* 替换原白色边框为主题红，强化圆形视觉 */
+   box-shadow: 0 0 20px rgba(230, 46, 56, 0.4); /* 增加主题色阴影，提升层次感 */
+   margin-bottom: 20px;
+   animation: float 3s ease-in-out infinite; /* 添加浮动动画属性 */
+    }
+    .profile-name {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .profile-motto {
+      color: #666;
+      margin-bottom: 20px;
+    }
+    .profile-social {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 20px;
+    }
+    .profile-social a {
+      color: #333;
+      transition: color 0.3s;
+    }
+    .profile-social a:hover {
+      color: #e62e38;
+    }
+
+
+    /* 3. 精选文章展示区（卡片网格） */
+    .articles-section {
+      padding: 60px 0;
+    }
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e62e38;
+      display: inline-block;
+    }
+    .article-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+    }
+    .article-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .article-card:hover {
+      transform: translateY(-5px);
+    }
+    .article-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .article-content {
+      padding: 20px;
+    }
+    .article-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .article-excerpt {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .article-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #999;
+    }
+
+
+    /* 4. 技能/兴趣标签云 */
+    .tags-section {
+      padding: 60px 0;
+      background: #f8f9fa;
+      text-align: center;
+    }
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .tag {
+      padding: 8px 18px;
+      background: #fff;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #333;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+    }
+    .tag:hover {
+      background: #e62e38;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+
+    /* 5. 页脚 */
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 40px 0;
+      text-align: center;
+    }
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 18px;
+      margin: 15px 0;
+    }
+    .footer-copyright {
+      font-size: 12px;
+      color: #ccc;
+    }
+
+
+    /* 响应式适配（移动端） */
+    @media (max-width: 768px) {
+      /* 隐藏桌面导航，显示汉堡菜单 */
+      .desktop-nav {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+      /* 文章卡片改为单列 */
+      .article-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 1. 导航栏 -->
+  <header>
+    <div class="container nav-container">
+      <div class="logo">我的博客</div>
+      <!-- 桌面端导航 -->
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="index.html" class="active">首页</a ></li>
+          <li><a href="./文章.html">文章列表</a ></li>
+          <li><a href="./个人.html">关于我</a ></li>
+         <li><a href="./作品.html">作品集</a ></li>
+        </ul>
+      </nav>
+      <!-- 移动端汉堡菜单按钮 -->
+      <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+    <!-- 移动端导航（默认隐藏） -->
+    <nav class="mobile-nav" id="mobileNav">
+      <div class="container">
+        <ul>
+          <li><a href="index.html" class="active">首页</a ></li>
+          <li><a href="./文章.html">文章列表</a ></li>
+          <li><a href="./个人.html">关于我</a ></li>
+          <li><a href="./作品.html">作品集</a ></li>
+          
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- 2. 个人信息区 -->
+  <section class="profile-section">
+    <div class="container">
+      <img src="./ims (1).webp" alt="我的头像"class="profile-avatar">
+      <h2 class="profile-name">前端开发者倒戈</h2>
+      <p class="profile-motto">代码写世界，设计定乾坤</p >
+      <div class="profile-social">
+        <a href="#"><i class="fab fa-github"></i></a >
+        <a href="#"><i class="fab fa-csdn"></i></a >
+        <a href="#"><i class="fab fa-weixin"></i></a >
+        <a href="#"><i class="fab fa-qq"></i></a >
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 3. 精选文章展示区 -->
+  <section class="articles-section">
+    <div class="container">
+      <h2 class="section-title">精选文章</h2>
+      <div class="article-cards">
+        <!-- 文章卡片1 -->
+        <div class="article-card">
+          <img src="./书本.png" alt="文章封面">
+          <div class="article-content">
+            <h3 class="article-title">HTML5语义化标签的实战应用</h3>
+            <p class="article-excerpt">语义化标签不仅让代码更易读，还能提升SEO效果，本文分享我在项目中如何落地语义化结构...</p >
+            <div class="article-meta">
+              <span>2026-01-05</span>
+              <a href="./小作文1.html" class="btn">阅读更多</a >
+            </div>
+          </div>
+        </div>
+        <!-- 文章卡片2 -->
+        <div class="article-card">
+          <img src="./学习教育 (2).png" alt="文章封面">
+          <div class="article-content">
+            <h3 class="article-title">CSS3 Grid布局实现复杂页面分区</h3>
+            <p class="article-excerpt">Grid布局的二维特性让复杂页面的排版更高效，教你用最少的代码实现响应式分区...</p >
+            <div class="article-meta">
+              <span>2026-01-04</span>
+              <a href="./小作文2.html" class="btn">阅读更多</a >
+            </div>
+          </div>
+        </div>
+        <!-- 文章卡片3 -->
+        <div class="article-card">
+          <img src="./书本 (1).png" alt="文章封面">
+          <div class="article-content">
+            <h3 class="article-title">移动端适配的3种核心方案</h3>
+            <p class="article-excerpt">从viewport到rem，再到vw/vh，总结我常用的移动端适配技巧，解决不同设备的显示问题...</p >
+            <div class="article-meta">
+              <span>2026-01-03</span>
+              <a href="./小作文3.html" class="btn">阅读更多</a >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 4. 技能/兴趣标签云 -->
+  <section class="tags-section">
+    <div class="container">
+      <h2 class="section-title">我的技术栈 & 兴趣</h2>
+      <div class="tags-cloud">
+        <span class="tag">HTML5</span>
+        <span class="tag">CSS3</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Flex布局</span>
+        <span class="tag">Grid布局</span>
+        <span class="tag">响应式设计</span>
+        <span class="tag">前端工程化</span>
+        <span class="tag">UI设计</span>
+        <span class="tag">游戏</span>
+        <span class="tag">摄影</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 5. 页脚 -->
+  <footer>
+    <div class="container">
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-github"></i></a >
+        <a href="#"><i class="fab fa-csdn"></i></a >
+        <a href="#"><i class="fab fa-weixin"></i></a >
+        <a href="#"><i class="fab fa-qq"></i></a >
+      </div>
+      <p class="footer-copyright">© 2026 我的个人博客 | 备案号：粤ICP备12345678号</p >
+    </div>
+  </footer>
+
+
+  <!-- 移动端菜单切换脚本 -->
+  <script>
+    function toggleMobileMenu() {
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的个人博客 - 文章列表</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* 引入首页全局样式（与首页保持一致） */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "微软雅黑", sans-serif;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #e62e38;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #c9252f;
+    }
+    /* 导航栏样式（与首页完全一致） */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e62e38;
+    }
+    .desktop-nav ul {
+      display: flex;
+      gap: 25px;
+      font-size: 14px;
+    }
+    .desktop-nav a {
+      padding: 5px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .desktop-nav a:hover,
+    .desktop-nav a.active {
+      color: #e62e38;
+      border-bottom: 2px solid #e62e38;
+    }
+    .mobile-menu-btn {
+      display: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .mobile-nav {
+      display: none;
+      background: #fff;
+      padding: 15px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .mobile-nav ul {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      font-size: 14px;
+    }
+    /* 页脚样式（与首页完全一致） */
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 40px 0;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 18px;
+      margin: 15px 0;
+    }
+    .footer-copyright {
+      font-size: 12px;
+      color: #ccc;
+    }
+    /* 列表页新增样式 */
+    /* 页面标题区 */
+    .page-header {
+      padding: 40px 0;
+      background: #f8f9fa;
+      text-align: center;
+    }
+    .page-title {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    .page-desc {
+      color: #666;
+      font-size: 16px;
+    }
+    /* 主内容+侧边栏布局 */
+    .article-layout {
+      display: flex;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .main-content {
+      flex: 3;
+    }
+    .sidebar {
+      flex: 1;
+    }
+    /* 筛选区样式 */
+    .filter-bar {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+    .filter-item select {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      min-width: 150px;
+    }
+    .filter-btn {
+      padding: 8px 20px;
+      background: #e62e38;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .filter-btn:hover {
+      background: #c9252f;
+    }
+    /* 文章列表区 */
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    .article-item {
+      background: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: box-shadow 0.3s;
+    }
+    .article-item:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .article-item-title {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    .article-item-title a {
+      color: #333;
+      transition: color 0.3s;
+    }
+    .article-item-title a:hover {
+      color: #e62e38;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 15px;
+    }
+    .article-meta .tag {
+      color: #e62e38;
+    }
+    .article-excerpt {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    .article-stats {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      color: #999;
+    }
+    /* 分页组件 */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 40px;
+    }
+    .pagination a {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .pagination a.active,
+    .pagination a:hover {
+      background: #e62e38;
+      color: #fff;
+      border-color: #e62e38;
+    }
+    /* 侧边栏模块 */
+    .sidebar-module {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 25px;
+    }
+    .sidebar-module-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e62e38;
+    }
+    .hot-articles li {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #eee;
+    }
+    .hot-articles li a {
+      color: #666;
+      transition: color 0.3s;
+    }
+    .hot-articles li a:hover {
+      color: #e62e38;
+    }
+    .category-stats li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #eee;
+    }
+    .category-stats .count {
+      color: #e62e38;
+    }
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+      .article-layout {
+        flex-direction: column;
+      }
+      .filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏（与首页一致，全局共用） -->
+  <header>
+    <div class="container nav-container">
+      <div class="logo">我的博客</div>
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="index.html">首页</a ></li>
+          <li><a href="./文章.html" class="active">文章列表</a ></li>
+          <li><a href="./个人.html">关于我</a ></li>
+          <li><a href="./作品.html">作品集</a ></li>  
+        </ul>
+      </nav>
+      <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <div class="container">
+        <ul>
+          <li><a href="index.html">首页</a ></li>
+          <li><a href="./文章.html" class="active">文章列表</a ></li>
+          <li><a href="./个人.html">关于我</a ></li>
+          <li><a href="./作品.html">作品集</a ></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 页面标题与描述（任务2） -->
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-title">思想的轨迹</h1>
+      <p class="page-desc">所有文章 | 记录前端学习与生活随笔的点滴</p >
+    </div>
+  </section>
+
+  <!-- 主内容区（筛选+列表+侧边栏） -->
+  <div class="container">
+    <div class="article-layout">
+      <!-- 主内容（筛选+列表+分页） -->
+      <div class="main-content">
+        <!-- 文章筛选区（任务3） -->
+        <div class="filter-bar">
+          <div class="filter-item">
+            <label for="category">分类：</label>
+            <select id="category">
+              <option value="all">全部分类</option>
+              <option value="frontend">前端</option>
+              <option value="essay">随笔</option>
+              <option value="tech">技术</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label for="tag">标签：</label>
+            <select id="tag">
+              <option value="all">全部标签</option>
+              <option value="html">HTML5</option>
+              <option value="css">CSS3</option>
+              <option value="js">JavaScript</option>
+              <option value="life">生活</option>
+            </select>
+          </div>
+          <button class="filter-btn">筛选</button>
+        </div>
+
+        <!-- 文章列表区（任务4） -->
+        <div class="article-list">
+          <!-- 文章条目1 -->
+          <div class="article-item">
+            <h2 class="article-item-title"><a href="article-detail.html">HTML5语义化标签的实战应用</a ></h2>
+            <div class="article-meta">
+              <span>发布日期：2026-01-05</span>
+              <span class="tag">分类：前端</span>
+              <span class="tag">标签：HTML5</span>
+            </div>
+            <p class="article-excerpt">语义化标签不仅让代码更易读，还能提升SEO效果，本文分享我在项目中如何落地语义化结构，包括header、nav、main、article等标签的正确使用场景，以及避免常见的语义化错误。</p >
+            <div class="article-stats">
+              <span>阅读量：128</span>
+              <span>评论数：6</span>
+            </div>
+          </div>
+          <!-- 文章条目2 -->
+          <div class="article-item">
+            <h2 class="article-item-title"><a href="article-detail.html">CSS3 Grid布局实现复杂页面分区</a ></h2>
+            <div class="article-meta">
+              <span>发布日期：2026-01-04</span>
+              <span class="tag">分类：前端</span>
+              <span class="tag">标签：CSS3</span>
+            </div>
+            <p class="article-excerpt">Grid布局的二维特性让复杂页面的排版更高效，教你用最少的代码实现响应式分区，包括网格行列的定义、网格线的使用、以及fr单位和auto-fill的实战技巧，对比Flex布局说明Grid的适用场景。</p >
+            <div class="article-stats">
+              <span>阅读量：96</span>
+              <span>评论数：3</span>
+            </div>
+          </div>
+          <!-- 文章条目3 -->
+          <div class="article-item">
+            <h2 class="article-item-title"><a href="article-detail.html">移动端适配的3种核心方案</a ></h2>
+            <div class="article-meta">
+              <span>发布日期：2026-01-03</span>
+              <span class="tag">分类：技术</span>
+              <span class="tag">标签：响应式</span>
+            </div>
+            <p class="article-excerpt">从viewport到rem，再到vw/vh，总结我常用的移动端适配技巧，解决不同设备的显示问题。分析每种方案的优缺点，以及在实际项目中如何结合使用，附完整的适配代码示例。</p >
+            <div class="article-stats">
+              <span>阅读量：156</span>
+              <span>评论数：8</span>
+            </div>
+          </div>
+          <!-- 文章条目4 -->
+          <div class="article-item">
+            <h2 class="article-item-title"><a href="article-detail.html">程序员的日常随笔：如何保持学习热情</a ></h2>
+            <div class="article-meta">
+              <span>发布日期：2026-01-02</span>
+              <span class="tag">分类：随笔</span>
+              <span class="tag">标签：生活</span>
+            </div>
+            <p class="article-excerpt">作为前端开发者，面对快速更新的技术栈，如何保持学习的热情和效率？分享我的学习方法，包括制定计划、碎片化学习、实战项目驱动，以及如何避免学习焦虑。</p >
+            <div class="article-stats">
+              <span>阅读量：78</span>
+              <span>评论数：5</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分页组件（任务5） -->
+        <div class="pagination">
+          <a href="#">上一页</a >
+          <a href="#" class="active">1</a >
+          <a href="#">2</a >
+          <a href="#">3</a >
+          <a href="#">下一页</a >
+        </div>
+      </div>
+
+      <!-- 侧边栏（任务6，可选） -->
+      <div class="sidebar">
+        <!-- 热门文章模块 -->
+        <div class="sidebar-module">
+          <h3 class="sidebar-module-title">热门文章</h3>
+          <ul class="hot-articles">
+            <li><a href="article-detail.html">移动端适配的3种核心方案</a ></li>
+            <li><a href="article-detail.html">HTML5语义化标签的实战应用</a ></li>
+            <li><a href="article-detail.html">CSS3 Grid布局实现复杂页面分区</a ></li>
+          </ul>
+        </div>
+        <!-- 文章分类统计模块 -->
+        <div class="sidebar-module">
+          <h3 class="sidebar-module-title">文章分类统计</h3>
+          <ul class="category-stats">
+            <li>
+              <span>前端</span>
+              <span class="count">2篇</span>
+            </li>
+            <li>
+              <span>技术</span>
+              <span class="count">1篇</span>
+            </li>
+            <li>
+              <span>随笔</span>
+              <span class="count">1篇</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚（全局共用，与首页一致） -->
+  <footer>
+    <div class="container">
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-github"></i></a >
+        <a href="#"><i class="fab fa-csdn"></i></a >
+        <a href="#"><i class="fab fa-weixin"></i></a >
+        <a href="#"><i class="fab fa-qq"></i></a >
+      </div>
+      <p class="footer-copyright">© 2026 我的个人博客 | 备案号：粤ICP备12345678号</p >
+    </div>
+  </footer>
+
+  <!-- 移动端菜单切换脚本（与首页一致） -->
+  <script>
+    function toggleMobileMenu() {
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>

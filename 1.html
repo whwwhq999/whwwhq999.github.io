@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的技术博客 | HTML5与CSS3实战</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #2980b9;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 头部导航 */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo a:hover {
+            color: #3498db;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: #3498db;
+        }
+
+        nav ul li a.active {
+            color: #3498db;
+        }
+
+        nav ul li a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #3498db;
+            bottom: 0;
+            left: 0;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 主要内容区域 */
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 2rem 0;
+            gap: 2rem;
+        }
+
+        /* 文章内容 */
+        .article-content {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .article-header {
+            padding: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .article-title {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-meta span {
+            margin-right: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .article-meta i {
+            margin-right: 0.5rem;
+        }
+
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-body {
+            padding: 2rem;
+        }
+
+        .article-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .article-body h2 {
+            color: #2c3e50;
+            margin: 1.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .article-body p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .article-body blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: #555;
+            font-style: italic;
+        }
+
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* 侧边栏 */
+        aside {
+            width: 300px;
+            min-width: 280px;
+        }
+
+        .sidebar-widget {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .author-info {
+            text-align: center;
+        }
+
+        .author-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid #ecf0f1;
+        }
+
+        .author-name {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .author-bio {
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: #ecf0f1;
+            border-radius: 50%;
+            color: #2c3e50;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: #3498db;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .recent-posts li {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recent-posts li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recent-posts a {
+            color: #2c3e50;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .recent-posts a:hover {
+            color: #3498db;
+        }
+
+        .recent-post-date {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+
+        /* 评论区域 */
+        .comments-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comment {
+            display: flex;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comment:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .comment-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .comment-content h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-meta {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .comment-text {
+            color: #555;
+        }
+
+        .comment-form {
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2.5rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #3498db;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ecf0f1;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            main {
+                flex-direction: column;
+            }
+            
+            aside {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                width: 100%;
+                margin-top: 1rem;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin-left: 0;
+                margin-bottom: 0.8rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .article-title {
+                font-size: 1.8rem;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .footer-section {
+                flex-basis: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .article-header, .article-body, .sidebar-widget, .comments-section {
+                padding: 1.5rem;
+            }
+            
+            .comment {
+                flex-direction: column;
+            }
+            
+            .comment-avatar {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">技术博客</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="./实训.html">首页</a></li>
+                    <li><a href="./文章.html">文章</a></li>
+                    <li><a href="./作品.html">作品集</a></li>
+                    <li><a href="./个人.html">关于我</a></li>
+                    <li><a href="contact.html">联系</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 主要内容区域 -->
+        <main>
+            <!-- 文章内容 -->
+            <article class="article-content">
+                <div class="article-header">
+                    <h1 class="article-title">HTML5与CSS3实战：构建响应式个人博客</h1>
+                    <div class="article-meta">
+                        <span><i class="far fa-user"></i> 作者：李明</span>
+                        <span><i class="far fa-calendar-alt"></i> 发布日期：2023年10月15日</span>
+                        <span><i class="far fa-clock"></i> 阅读时间：5分钟</span>
+                        <span><i class="far fa-eye"></i> 阅读量：1284</span>
+                    </div>
+                    <div class="article-tags">
+                        <span class="tag">HTML5</span>
+                        <span class="tag">CSS3</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">响应式设计</span>
+                        <span class="tag">前端开发</span>
+                    </div>
+                </div>
+                
+                <div class="article-body">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="HTML5与CSS3开发" class="article-image">
+                    
+                    <p>在当今数字化时代，个人博客不仅是分享知识和经验的平台，也是展示个人技能的重要方式。本文将详细介绍如何使用HTML5、CSS3和JavaScript构建一个响应式个人博客网站，该网站包含首页、文章详情、关于我和作品集等页面，并支持移动端适配。</p>
+                    
+                    <h2>响应式设计的重要性</h2>
+                    <p>随着移动设备的普及，响应式设计已成为现代网站开发的基本要求。响应式网站能够根据用户设备的屏幕尺寸自动调整布局和内容，提供一致的用户体验。</p>
+                    
+                    <blockquote>
+                        "响应式设计不仅仅是关于屏幕尺寸的调整，更是关于创建灵活、适应性强的用户体验。" - Ethan Marcotte
+                    </blockquote>
+                    
+                    <p>使用CSS3的媒体查询(Media Queries)功能，我们可以轻松实现响应式设计。例如，以下代码展示了如何为不同屏幕尺寸设置不同的样式：</p>
+                    
+                    <div class="code-block">
+<pre>/* 平板设备 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 576px) {
+    .article-header, .article-body {
+        padding: 1rem;
+    }
+    
+    nav ul {
+        flex-direction: column;
+    }
+}</pre>
+                    </div>
+                    
+                    <h2>HTML5语义化标签</h2>
+                    <p>HTML5引入了一系列语义化标签，如&lt;header&gt;、&lt;nav&gt;、&lt;article&gt;、&lt;section&gt;和&lt;footer&gt;等，这些标签不仅使代码结构更清晰，也有助于搜索引擎优化(SEO)和辅助技术(如屏幕阅读器)的理解。</p>
+                    
+                    <p>在我们的博客项目中，我们充分利用了这些语义化标签：</p>
+                    
+                    <div class="code-block">
+<pre>&lt;header&gt;
+    &lt;nav&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href="index.html"&gt;首页&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="articles.html"&gt;文章&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="about.html"&gt;关于我&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+    &lt;article&gt;
+        &lt;h1&gt;文章标题&lt;/h1&gt;
+        &lt;p&gt;文章内容...&lt;/p&gt;
+    &lt;/article&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+    &lt;p&gt;版权信息&lt;/p&gt;
+&lt;/footer&gt;</pre>
+                    </div>
+                    
+                    <h2>CSS3高级特性应用</h2>
+                    <p>CSS3提供了许多强大的新特性，如Flexbox布局、Grid布局、过渡(Transition)、变换(Transform)和动画(Animation)等。在我们的博客项目中，我们使用Flexbox创建灵活的布局，使用过渡效果增强用户交互体验。</p>
+                    
+                    <p>例如，导航菜单项的悬停效果使用了CSS3过渡：</p>
+                    
+                    <div class="code-block">
+<pre>nav ul li a {
+    color: #333;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #3498db;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #3498db;
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}</pre>
+                    </div>
+                    
+                    <h2>JavaScript交互功能</h2>
+                    <p>虽然HTML5和CSS3可以实现大部分静态功能，但为了增强用户体验，我们使用JavaScript添加了一些交互功能，如移动端菜单切换、文章分享和评论提交等。</p>
+                    
+                    <p>以下是一个简单的移动端菜单切换示例：</p>
+                    
+                    <div class="code-block">
+<pre>const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mainNav = document.getElementById('mainNav');
+
+mobileMenuBtn.addEventListener('click', () => {
+    mainNav.classList.toggle('active');
+});</pre>
+                    </div>
+                    
+                    <p>通过结合HTML5的语义化结构、CSS3的响应式设计和JavaScript的交互功能，我们成功构建了一个功能完善、外观美观且适配各种设备的个人博客网站。</p>
+                </div>
+            </article>
+            
+            <!-- 侧边栏 -->
+            <aside>
+                <!-- 作者信息 -->
+                <div class="sidebar-widget author-info">
+                    <h3 class="sidebar-title">关于作者</h3>
+                    <img src="./ims (1).webp" alt="作者头像" class="author-avatar">
+                    <h4 class="author-name">倒戈</h4>
+                    <p class="author-bio">前端开发工程师，专注于响应式网页设计和用户体验。热爱分享技术知识，致力于帮助他人提升前端开发技能。</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-codepen"></i></a>
+                    </div>
+                </div>
+                
+                <!-- 最新文章 -->
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">最新文章</h3>
+                    <ul class="recent-posts">
+                        <li>
+                            <a href="#">JavaScript ES6+新特性详解</a>
+                            <div class="recent-post-date">2023年10月10日</div>
+                        </li>
+                        <li>
+                            <a href="#">CSS Grid布局完全指南</a>
+                            <div class="recent-post-date">2023年9月28日</div>
+                        </li>
+                        <li>
+                            <a href="#">Vue.js 3.0入门与实践</a>
+                            <div class="recent-post-date">2023年9月15日</div>
+                        </li>
+                        <li>
+                            <a href="#">网站性能优化技巧</a>
+                            <div class="recent-post-date">2023年9月5日</div>
+                        </li>
+                        <li>
+                            <a href="#">移动端开发最佳实践</a>
+                            <div class="recent-post-date">2023年8月22日</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 标签云 -->
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">标签云</h3>
+                    <div class="article-tags">
+                        <span class="tag">HTML5</span>
+                        <span class="tag">CSS3</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">响应式</span>
+                        <span class="tag">前端</span>
+                        <span class="tag">Vue.js</span>
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Web开发</span>
+                    </div>
+                </div>
+            </aside>
+        </main>
+        
+        <!-- 评论区域 -->
+        <section class="comments-section">
+            <h2>评论 (3)</h2>
+            
+            <div class="comment">
+                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="用户头像" class="comment-avatar">
+                <div class="comment-content">
+                    <h4>张华</h4>
+                    <div class="comment-meta">2023年10月16日 上午10:30</div>
+                    <p class="comment-text">这篇文章非常实用！我正在学习前端开发，特别是响应式设计部分，文章中的代码示例对我帮助很大。期待更多关于CSS Grid和Flexbox的教程！</p>
+                </div>
+            </div>
+            
+            <div class="comment">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="用户头像" class="comment-avatar">
+                <div class="comment-content">
+                    <h4>王磊</h4>
+                    <div class="comment-meta">2023年10月15日 下午3:45</div>
+                    <p class="comment-text">感谢分享！我正在为自己的个人博客寻找设计灵感，这篇文章给了我很多启发。特别是移动端适配的部分，解决了我之前遇到的布局问题。</p>
+                </div>
+            </div>
+            
+            <div class="comment">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80" alt="用户头像" class="comment-avatar">
+                <div class="comment-content">
+                    <h4>陈芳</h4>
+                    <div class="comment-meta">2023年10月15日 下午1:20</div>
+                    <p class="comment-text">作为一个前端新手，这篇文章写得非常清晰易懂。我喜欢文章中实际代码示例的部分，让我可以边读边实践。希望作者能继续分享更多前端开发的经验！</p>
+                </div>
+            </div>
+            
+            <div class="comment-form">
+                <h3>发表评论</h3>
+                <form id="commentForm">
+                    <div class="form-group">
+                        <label for="name">姓名 *</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">邮箱 *</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comment">评论内容 *</label>
+                        <textarea id="comment" class="form-control" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">提交评论</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>技术博客</h3>
+                    <p>一个专注于前端开发技术的个人博客，分享HTML5、CSS3、JavaScript等前端技术知识和实践经验。</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="./实训.html">首页</a></li>
+                        <li><a href="./文章.html">所有文章</a></li>
+                        <li><a href="./作品.html">作品集</a></li>
+                        <li><a href="./个人.html">关于我</a></li>
+                        <li><a href="contact.html">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>技术栈</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">HTML5</a></li>
+                        <li><a href="#">CSS3</a></li>
+                        <li><a href="#">JavaScript</a></li>
+                        <li><a href="#">响应式设计</a></li>
+                        <li><a href="#">前端框架</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>联系信息</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> contact@example.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 北京市朝阳区</li>
+                        <li><i class="fas fa-globe"></i> www.example.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 技术博客. 基于HTML5、CSS3、JavaScript开发的响应式个人博客. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // 评论表单提交
+        document.getElementById('commentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comment').value;
+            
+            if(name && comment) {
+                alert('评论已提交，感谢您的参与！');
+                document.getElementById('commentForm').reset();
+            }
+        });
+        
+        // 当前页面高亮
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('nav a');
+            
+            navLinks.forEach(link => {
+                if(link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
